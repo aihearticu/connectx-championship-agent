@@ -1,0 +1,72 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+test_venv/
+
+# Jupyter
+.ipynb_checkpoints
+*.ipynb
+
+# Kaggle
+kaggle.json
+.kaggle/
+submissions/
+submission_attempt.log
+
+# Archives and backups
+*.zip
+archive/
+backups/
+old_*/
+temp_*/
+
+# Neural network models
+*.pth
+*.pkl
+*.h5
+*.model
+
+# Data files
+*.csv
+*.json
+*.npy
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+kaggle-data/
+kaggle-environments-*/
+openevolve/
+clean_workspace/
+kaggle-s5e5/
+connectx-agent-learnings/
+research/
+test_results/
+version_comparison_results.json
+emergency_benchmark_results.json
+final_validation_results.json
+top10_benchmark_*.json
+
+# Keep only essential agent files
+!submission.py
+!test_strategies.py
+!perfect_play_agent.py
+!ultimate_agent.py
+!bitboard_engine.py
+!train_neural_agent.py
