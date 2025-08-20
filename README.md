@@ -235,6 +235,6 @@ Competition code - All rights reserved
 - Advanced game AI literature and techniques
 
 ---
-**Latest Update**: August 2025
+**Latest Update**: August 19, 2025
 **Competition**: [Kaggle Connect X](https://www.kaggle.com/c/connectx)
 **Author**: AIHeartICU

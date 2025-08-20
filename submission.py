@@ -58,18 +58,18 @@ def agent(observation, configuration):
     # Dynamic depth based on game phase
     piece_count = bin(mask).count('1')
     if piece_count < 10:
-        search_depth = 12  # Deeper in opening
+        search_depth = 10
     elif piece_count < 25:
-        search_depth = 10  # Standard midgame
+        search_depth = 9
     else:
-        search_depth = 14  # Deep endgame
+        search_depth = 11
     
     # Search with iterative deepening
     best_move = 3  # Default center
     best_score = -100000
     
-    for depth in range(6, search_depth + 1, 2):  # Start deeper, skip odd depths
-        if time.time() - start_time > 0.9:  # Use more time
+    for depth in range(4, search_depth + 1):
+        if time.time() - start_time > 0.85:
             break
         
         score, move = negamax_search(
@@ -124,23 +124,23 @@ def is_winning_move_fast(position, mask, col):
     new_mask = mask | (mask + (1 << (col * 7)))
     new_pos = position ^ new_mask
     
-    # Check alignment (using correct bit shifts)
-    # Horizontal (shift by 7 for column)
+    # Check alignment
+    # Horizontal
     m = new_pos & (new_pos >> 7)
     if m & (m >> 14):
         return True
     
-    # Diagonal \ (shift by 6)
+    # Diagonal \
     m = new_pos & (new_pos >> 6)
     if m & (m >> 12):
         return True
     
-    # Diagonal / (shift by 8)
+    # Diagonal /
     m = new_pos & (new_pos >> 8)
     if m & (m >> 16):
         return True
     
-    # Vertical (shift by 1)
+    # Vertical
     m = new_pos & (new_pos >> 1)
     if m & (m >> 2):
         return True
@@ -210,8 +210,8 @@ class PatternEvaluator:
         my_threats = count_threats(position, mask)
         opp_threats = count_threats(opponent, mask)
         
-        score += my_threats * 150  # Increased threat value
-        score -= opp_threats * 180  # More defensive
+        score += my_threats * 100
+        score -= opp_threats * 120
         
         # Center control
         center_mask = 0x10204081020408  # Center column
@@ -249,14 +249,14 @@ def count_patterns(position, opponent, mask):
             
             if opp_pieces == 0:
                 if my_pieces == 3:
-                    score += 100  # Increased value for near-wins
+                    score += 50
                 elif my_pieces == 2:
-                    score += 20   # Better value for potential threats
+                    score += 10
             elif my_pieces == 0:
                 if opp_pieces == 3:
-                    score -= 120  # More defensive
+                    score -= 50
                 elif opp_pieces == 2:
-                    score -= 25   # Block early
+                    score -= 10
     
     return score
 
@@ -313,10 +313,10 @@ def negamax_search(position, mask, depth, alpha, beta, maximizing, start_time, a
         new_mask = mask | (mask + (1 << (col * 7)))
         new_pos = position ^ new_mask
         
-        # Late move reduction - more aggressive
+        # Late move reduction
         reduction = 0
-        if i >= 4 and depth > 4:  # Reduce later moves more
-            reduction = 2 if depth > 6 else 1
+        if i >= 3 and depth > 3:
+            reduction = 1
         
         # Recursive search
         score, _ = negamax_search(
